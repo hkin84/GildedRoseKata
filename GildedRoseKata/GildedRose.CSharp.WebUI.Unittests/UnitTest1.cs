@@ -138,12 +138,70 @@ namespace GildedRose.CSharp.WebUI.Unittests
             int expected;
             Item foundItemAntes = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
             foundItemAntes.SellIn = 10;
-            expected = foundItemAntes.Quality;
-           // for (i = 10; ; )
-
-                // ACT
-                sut.UpdateQuality();
+            expected = foundItemAntes.Quality + 2;
+           
+            // ACT
+            sut.UpdateQuality();
             Item actual = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
+
+            // ASSERT
+            Assert.AreEqual(expected, actual.Quality);
+        }
+
+        [TestMethod]
+        public void CalidadIncrenta3CuandoFaltan5Dias()
+        {
+            // ARRANGE
+            GildedRoseAdminPanel sut;
+            sut = new GildedRoseAdminPanel();
+
+            int expected;
+            Item foundItemAntes = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
+            foundItemAntes.SellIn = 5;
+            expected = foundItemAntes.Quality + 3;
+
+            // ACT
+            sut.UpdateQuality();
+            Item actual = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
+
+            // ASSERT
+            Assert.AreEqual(expected, actual.Quality);
+        }
+
+        [TestMethod]
+        public void CalidadEs0DespuesConcierto()
+        {
+            // ARRANGE
+            GildedRoseAdminPanel sut;
+            sut = new GildedRoseAdminPanel();
+
+            int expected;
+            Item foundItemAntes = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
+            foundItemAntes.SellIn = 0;
+            expected = 0;
+
+            // ACT
+            sut.UpdateQuality();
+            Item actual = BuscarItem(sut, "Backstage passes to a TAFKAL80ETC concert");
+
+            // ASSERT
+            Assert.AreEqual(expected, actual.Quality);
+        }
+
+        [TestMethod]
+        public void CalidadBajax2()
+        {
+            // ARRANGE
+            GildedRoseAdminPanel sut;
+            sut = new GildedRoseAdminPanel();
+
+            int expected;
+            Item foundItemAntes = BuscarItem(sut, "Conjured Mana Cake");
+            expected = foundItemAntes.Quality - 2;
+
+            // ACT
+            sut.UpdateQuality();
+            Item actual = BuscarItem(sut, "Conjured Mana Cake");
 
             // ASSERT
             Assert.AreEqual(expected, actual.Quality);
