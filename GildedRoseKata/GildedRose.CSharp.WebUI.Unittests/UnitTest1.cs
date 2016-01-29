@@ -129,7 +129,7 @@ namespace GildedRose.CSharp.WebUI.Unittests
         }
 
         [TestMethod]
-        public void CalidadIncrenta2CuandoFaltan10Dias()
+        public void BackstageCalidadIncrenta2CuandoFaltan10Dias()
         {
             // ARRANGE
             GildedRoseAdminPanel sut;
@@ -149,7 +149,7 @@ namespace GildedRose.CSharp.WebUI.Unittests
         }
 
         [TestMethod]
-        public void CalidadIncrenta3CuandoFaltan5Dias()
+        public void BackstageCalidadIncrenta3CuandoFaltan5Dias()
         {
             // ARRANGE
             GildedRoseAdminPanel sut;
@@ -169,7 +169,7 @@ namespace GildedRose.CSharp.WebUI.Unittests
         }
 
         [TestMethod]
-        public void CalidadEs0DespuesConcierto()
+        public void BackstageCalidadEs0DespuesConcierto()
         {
             // ARRANGE
             GildedRoseAdminPanel sut;
@@ -198,6 +198,46 @@ namespace GildedRose.CSharp.WebUI.Unittests
             int expected;
             Item foundItemAntes = BuscarItem(sut, "Conjured Mana Cake");
             expected = foundItemAntes.Quality - 2;
+
+            // ACT
+            sut.UpdateQuality();
+            Item actual = BuscarItem(sut, "Conjured Mana Cake");
+
+            // ASSERT
+            Assert.AreEqual(expected, actual.Quality);
+        }
+
+        [TestMethod]
+        public void CalidadBajax2CuandoFechaVentaPasa()
+        {
+            // ARRANGE
+            GildedRoseAdminPanel sut;
+            sut = new GildedRoseAdminPanel();
+
+            int expected;
+            Item foundItemAntes = BuscarItem(sut, "Conjured Mana Cake");
+            foundItemAntes.SellIn = 0;
+            expected = foundItemAntes.Quality - 4;
+
+            // ACT
+            sut.UpdateQuality();
+            Item actual = BuscarItem(sut, "Conjured Mana Cake");
+
+            // ASSERT
+            Assert.AreEqual(expected, actual.Quality);
+        }
+
+        [TestMethod]
+        public void CalidadNoBajaDe0()
+        {
+            // ARRANGE
+            GildedRoseAdminPanel sut;
+            sut = new GildedRoseAdminPanel();
+
+            int expected;
+            Item foundItemAntes = BuscarItem(sut, "Conjured Mana Cake");
+            foundItemAntes.Quality = 0;
+            expected = 0;
 
             // ACT
             sut.UpdateQuality();
